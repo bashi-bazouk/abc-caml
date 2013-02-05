@@ -1,0 +1,28 @@
+digraph {
+string -> identifier[dir=both color=blue]
+int -> constant_expression[dir=both color=blue]
+
+< Void | Char | Short | Int | Long | Float | Double | Signed | Unsigned >
+
+storage_class_specifier -> declaration_specifier[label=StorageClass color=green]
+type_specifier -> declaration_specifier[label=TypeSpecifier color=green]
+type_qualifier -> declaration_specifier[label=TypeQualifier color=green]
+<(pointer option, direct_declarator)> -> declarator[dir=both color=blue]
+direct_declarator -> <(pointer option, direct_declarator)>
+pointer -> <(pointer option, direct_declarator)>
+storage_class_specifier -> < Auto | Register | Static | Extern >[color=red]
+type_specifier -> < Void | Char | Short | Int | Long | Float | Double | Signed | Unsigned >[color=red]
+<struct_declaration list> -> type_specifier[label=Struct color=green]
+<struct_declaration list> -> type_specifier[label=Union color=green]
+enum_specifier -> type_specifier[label=Enum color=green]
+identifier -> type_specifier[label=Typedef color=green]
+type_qualifier -> < Const | Volatile >[color=red]
+type_qualifier -> pointer[label=AddressOf color=green]
+< (type_qualifier list, pointer) > -> pointer[label="PointerTo" color=green]
+identifier -> direct_declarator[label=Alias color=green]
+< (direct_declarator, parameter_declaration list) > -> direct_declarator[label=Function color=green]
+< (type_qualifier list, struct_declarator list) > -> struct_declaration[color=blue]
+struct_declaration -> < (type_qualifier list, struct_declarator list) >[color=blue]
+< (identifier option, enumerator list)> -> enum_specifier[label=EnumDef color=green]
+identifier -> enum_specifier[label=EnumDecl color=green]
+}

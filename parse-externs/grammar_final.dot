@@ -1,0 +1,5 @@
+digraph {
+primitive -> < Void | Char | Short | Int | Long | Float  | Double | Signed | Unsigned >[color=red]
+identifier -> primitive[label=Alias color=green]
+
+}
