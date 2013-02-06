@@ -24,18 +24,19 @@ all: C.ml
 test: main
 	./main
 
-declaration: declaration.ml
+declaration.cmo: declaration.ml
 	ocamlfind ocamlc -package sexplib,sexplib.syntax -syntax camlp4o -linkpkg -c $<
 
 PHONY: clean lextest
 
 clean:
-	-rm *.cmo
-	-rm *.cmi
-	-rm *~
-	-rm a.out
+	-rm lexer.mli lexer.ml parser.mli parser.ml *.cmo *.cmi *~ a.out arch_flags
 
-Lexer.cmo: Lexer.mll 
+parser.cmo: parser.mly
+	ocamlyacc parser.mly
+	ocamlc -c parser.mli parser.ml
+
+lexer.cmo: Lexer.mll Parser.cmo Declaration.cmo
 	ocamllex Lexer.mll
 	ocamlc -c Lexer.ml
 
