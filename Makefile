@@ -27,6 +27,9 @@ test: main
 declaration.cmo: declaration.ml
 	ocamlfind ocamlc -package sexplib,sexplib.syntax -syntax camlp4o -linkpkg -c $<
 
+dectop: declaration.cmo
+	ocamlfind ocamlmktop -o dectop -package sexplib -linkpkg $<
+
 PHONY: clean lextest
 
 clean:
@@ -36,11 +39,17 @@ parser.cmo: parser.mly
 	ocamlyacc parser.mly
 	ocamlc -c parser.mli parser.ml
 
-lexer.cmo: Lexer.mll Parser.cmo Declaration.cmo
+lexer.cmo: lexer.mll parser.cmo declaration.cmo
 	ocamllex Lexer.mll
 	ocamlc -c Lexer.ml
 
-lextest: Lexer.cmo
+lextest: lexer.cmo
 	ocamlc Lexer.ml -o lextest
 	cat abc.h | ./lextest
 	rm lextest
+
+stage1: stage1.mll
+	ocamllex stage1.mll
+	ocamlc -o stage1 stage1.ml
+	-./stage1
+	-rm stage1
