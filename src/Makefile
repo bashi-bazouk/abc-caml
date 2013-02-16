@@ -1,6 +1,6 @@
-.PHONY : 1 2 3
+.PHONY : 1 2 3 clean
 
-all : 1 2 3
+all : 1 2
 
 1 :
 	cd 1; make
@@ -10,3 +10,8 @@ all : 1 2 3
 
 3 :
 	cd 3; make
+
+clean :
+	cd 1; make clean
+	cd 2; make clean
+	cd 3; make clean
